@@ -1,0 +1,94 @@
+{
+  "orderId": "78906543",
+  "customer": {
+    "customerId": "CUST123456",
+    "name": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "contactDetails": {
+      "email": "john.doe@example.com",
+      "phone": "+1-234-567-890"
+    },
+    "address": {
+      "billingAddress": {
+        "street": "123 Main St",
+        "city": "Los Angeles",
+        "state": "CA",
+        "zipCode": "90001",
+        "country": "USA"
+      },
+      "shippingAddress": {
+        "street": "456 Elm St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zipCode": "94101",
+        "country": "USA"
+      }
+    }
+  },
+  "orderDetails": {
+    "orderDate": "2024-10-01T14:48:00Z",
+    "shippingMethod": "Express",
+    "paymentMethod": {
+      "type": "CreditCard",
+      "details": {
+        "cardNumber": "**** **** **** 1234",
+        "expiryDate": "12/24",
+        "cardHolder": "John Doe"
+      }
+    }
+  },
+  "items": [
+    {
+      "itemId": "ITEM001",
+      "productName": "Laptop",
+      "quantity": 1,
+      "price": 1200.00,
+      "categories": ["Electronics", "Computers"],
+      "warranty": {
+        "duration": "1 Year",
+        "details": {
+          "type": "Manufacturer",
+          "coverage": "Hardware"
+        }
+      }
+    },
+    {
+      "itemId": "ITEM002",
+      "productName": "Wireless Mouse",
+      "quantity": 2,
+      "price": 50.00,
+      "categories": ["Electronics", "Accessories"],
+      "warranty": {
+        "duration": "6 Months",
+        "details": {
+          "type": "Retailer",
+          "coverage": "Hardware"
+        }
+      }
+    }
+  ],
+  "shippingStatus": {
+    "status": "Shipped",
+    "trackingNumber": "TRK1234567890",
+    "estimatedDelivery": "2024-10-05",
+    "updates": [
+      {
+        "timestamp": "2024-10-02T09:00:00Z",
+        "location": "Los Angeles, CA",
+        "status": "Out for delivery"
+      },
+      {
+        "timestamp": "2024-10-03T11:30:00Z",
+        "location": "San Francisco, CA",
+        "status": "Delivered"
+      }
+    ]
+  },
+  "customerFeedback": {
+    "rating": 5,
+    "comments": "Great service and fast delivery!",
+    "submittedAt": "2024-10-06T08:45:00Z"
+  }
+}
