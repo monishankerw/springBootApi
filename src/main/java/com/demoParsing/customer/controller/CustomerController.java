@@ -2,10 +2,11 @@ package com.demoParsing.customer.controller;
 
 import com.demoParsing.customer.dto.CustomerDto;
 import com.demoParsing.customer.entity.Customer;
+import com.demoParsing.customer.exception.CustomerNotFoundException;
+import com.demoParsing.customer.exception.InvalidDataException;
 import com.demoParsing.customer.service.CustomerService;
 import com.demoParsing.customer.util.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,10 @@ public class CustomerController {
     public ResponseEntity<Response> createCustomer(@RequestBody CustomerDto customerDto) {
         log.info("Starting the customer creation process for: {}", customerDto.getFirstName());
 
+        if (customerDto == null) {
+            throw new InvalidDataException("Customer data cannot be null");
+        }
+
         try {
             // Convert DTO to entity
             Customer customer = objectMapper.convertValue(customerDto, Customer.class);
@@ -45,19 +50,25 @@ public class CustomerController {
             Response response = new Response("Customer created successfully", savedCustomer);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
 
+        } catch (InvalidDataException e) {
+            log.error("Invalid data: {}", e.getMessage());
+            Response response = new Response("Invalid data: " + e.getMessage(), null);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             log.error("Error occurred while creating customer: {}", e.getMessage());
             Response response = new Response("Failed to create customer: " + e.getMessage(), null);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/all")
     public ResponseEntity<Response> getAllCustomers() {
         log.info("Fetching all customers");
-        List<Customer> customers = customerService.getAllCustomers(); // Ensure this line is correct
+        List<Customer> customers = customerService.getAllCustomers();
         Response response = new Response("Customers retrieved successfully", customers);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     @GetMapping("/{id}") // Use a variable path to fetch customer by ID
     public ResponseEntity<Response> getAllCustomerById(@PathVariable Long id) {
         Optional<Customer> customerOpt = customerService.getByIdForCustomer(id);
@@ -66,9 +77,7 @@ public class CustomerController {
             Response response = new Response("Customer retrieved by Id successfully", customerOpt.get());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            Response response = new Response("Customer not found", null);
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            throw new CustomerNotFoundException("Customer not found with id: " + id);
         }
     }
-
 }
