@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
+
 public class TransactionDTO {
     private String accountNature;
     private String transactionDate;
